@@ -1,0 +1,143 @@
+<html>
+	<head>
+		<style>
+			#canvas{
+				margin-left: auto;
+				margin-right: auto;
+				display: block;
+				background-color: black;
+			}
+			#controls{
+				text-align: center;
+			}
+			#start_button, #stop_button{
+				font-size: 16pt;
+			}
+		</style>
+		<script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
+		<script src="./timeDomain.js"></script>
+		<script>
+			$(document).ready(function(){
+				navigator.getUserMedia = 
+					navigator.getUserMedia ||
+					navigator.webkitGetUserMedia ||
+					navigator.mozGetUserMedia ||
+					navigator.msGetUserMedia;
+
+				window.requestAnimFrame = 
+					window.requestAnimationFrame ||
+					window.webkitRequestAnimationFrame ||
+					window.mozRequestAnimationFrame ||
+					function(callback, element){
+						window.setTimeout(callback, 1000 / 60);
+					};
+
+				window.AudioContext =
+					window.AudioContext ||
+					window.webkitAudioContext ||
+					window.mozAudioContext;
+
+				// vars for drawing
+				var column = 0;
+				var canvasHeight = 800;
+				var canvasWidth = 256;
+				var ctx;
+				//the audio context and processing module
+				var audioContext;
+				var timeDomain = new TimeDomain();
+				var amplitudearray;
+				var stoped = false;
+				//console.log(timeDomain);
+
+				ctx = $("#canvas").get()[0].getContext("2d");
+				try{
+					
+					audioContext = new AudioContext();
+				}catch(e){
+					alert("no webaudioapi support");
+				}
+
+				$("#start_button").click(function(e){
+					e.preventDefault();
+					clearCanvas();
+					//drawTimeDomain();
+					try{
+						navigator.getUserMedia({
+							video: false,
+							audio: true},
+							function(stream){
+								timeDomain.setAudioStream(stream);
+								timeDomain.setAudioContext(window.AudioContext);
+								timeDomain.start();
+								requestAnimFrame(drawTimeDomain);
+							},
+							onError
+						);
+					}catch(e){
+						console.log(e);
+					}
+				});
+
+				$("#stop_button").click(function(e){
+					e.preventDefault();
+					timeDomain.stop();
+					stoped = true;
+				});
+
+				function onError(e){
+					console.log(e);
+				}
+
+				function drawTimeDomain(){
+					var minValue = 9999999;
+       					var maxValue = 0;
+					amplitudearray = timeDomain.getProcessedData();
+					console.log(amplitudearray);
+					if(!amplitudearray){
+						return;
+					}
+       					for (var i = 0; i < amplitudearray.length; i++) {
+            					var value = amplitudearray[i] / 256;
+           					if(value > maxValue) {
+               						maxValue = value;
+           					}else if(value < minValue) {
+               						minValue = value;
+            					}
+        				}
+       					var y_lo = canvasHeight - (canvasHeight * minValue) - 1;
+        				var y_hi = canvasHeight - (canvasHeight * maxValue) - 1;
+       					ctx.fillStyle = '#ffffff';
+       					ctx.fillRect(column,y_lo, 1, y_hi - y_lo);
+        				// loop around the canvas when we reach the end
+       					column += 1;
+       					if(column >= canvasWidth) {
+           					column = 0;
+            					clearCanvas();
+       					}
+					
+					//console.log("draw");
+					if(!stoped) requestAnimFrame(drawTimeDomain);
+				}
+
+				function clearCanvas(){
+				        column = 0;
+       					ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+				        // ctx.beginPath();
+				        ctx.strokeStyle = '#f00';
+				        var y = (canvasHeight / 2) + 0.5;
+				        ctx.moveTo(0, y);
+				        ctx.lineTo(canvasWidth-1, y);
+					ctx.stroke();
+				}
+			});
+		</script>
+	</head>
+
+	<body>
+		<canvas id="canvas" width="800" height="256" ></canvas>
+		<p id="controls">
+			<input type="button" id="start_button" value="Start">
+			<input type="button" id="stop_button" value="Stop">
+		</p>
+	</body>
+</html>
