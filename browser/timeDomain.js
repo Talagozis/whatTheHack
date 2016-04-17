@@ -8,6 +8,7 @@ var TimeDomain = (function(){
 	var sampleSize = 1024; // samples to collect before analysing
 	var amplitudeArray; // holds frequency amplitude data
 	var audioStream;
+	var lowPassFilter;
 
 	instance.setAudioContext = function(ac){
 		audioContext = new ac();
@@ -25,6 +26,9 @@ var TimeDomain = (function(){
 		sourceNode = audioContext.createMediaStreamSource(audioStream);
 		analyserNode = audioContext.createAnalyser();
 		javascriptNode = audioContext.createScriptProcessor(sampleSize, 1, 1);
+		lowPassFilter = audioContext.createBiquadFilter();
+		lowPassFilter.type = "LOWPASS";
+		lowPassFilter.frequency.value = 500;
 		amplitudeArray = new Uint8Array(analyserNode.frequencyBinCount);
 		//triggered when enough samples collected
 		javascriptNode.onaudioprocess = function(){
@@ -33,14 +37,26 @@ var TimeDomain = (function(){
 		};
 
 		// Draw the audio graph
+		/*
 		sourceNode.connect(analyserNode);
+		analyserNode.connect(javascriptNode);
+		javascriptNode.connect(audioContext.destination);
+		*/
+		sourceNode.connect(lowPassFilter);
+		lowPassFilter.connect(analyserNode);
 		analyserNode.connect(javascriptNode);
 		javascriptNode.connect(audioContext.destination);
 	};
 
 	instance.stop = function(){
 		javascriptNode.onaudioprocess = null;
-		if(audioStream) audioStream.stop();
+		/*
+		if(audioStream){
+			if(audioStream.stop){
+				audioStream.stop();
+			}
+		} 
+		*/
 		if(sourceNode) sourceNode.disconnect();
 	};
 

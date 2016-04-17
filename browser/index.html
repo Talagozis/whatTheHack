@@ -39,17 +39,18 @@
 
 				// vars for drawing
 				var column = 0;
-				var canvasHeight = 800;
-				var canvasWidth = 256;
+				var canvasHeight = 256;
+				var canvasWidth = 800;
 				var ctx;
 				//the audio context and processing module
 				var audioContext;
 				var timeDomain = new TimeDomain();
 				var amplitudearray;
 				var stoped = false;
+				var savedData = [];
 				//console.log(timeDomain);
-
-				ctx = $("#canvas").get()[0].getContext("2d");
+			
+				//ctx = $("#canvas").get()[0].getContext("2d");
 				try{
 					
 					audioContext = new AudioContext();
@@ -59,7 +60,7 @@
 
 				$("#start_button").click(function(e){
 					e.preventDefault();
-					clearCanvas();
+					//clearCanvas();
 					//drawTimeDomain();
 					try{
 						navigator.getUserMedia({
@@ -69,7 +70,7 @@
 								timeDomain.setAudioStream(stream);
 								timeDomain.setAudioContext(window.AudioContext);
 								timeDomain.start();
-								requestAnimFrame(drawTimeDomain);
+								//requestAnimFrame(drawTimeDomain);
 							},
 							onError
 						);
@@ -82,6 +83,20 @@
 					e.preventDefault();
 					timeDomain.stop();
 					stoped = true;
+					//console.log(JSON.stringify(savedData));
+					/*
+					$.ajax({
+				                type: "POST",
+				                url: "/api/track",
+				                data: savedData,
+				                processData:false,
+				                contentType: "application/json; charset=utf-8",
+				                dataType: "json",
+				                success: function(data){
+				                    alert(data.d);
+				                }
+				        });
+					*/
 				});
 
 				function onError(e){
@@ -91,8 +106,9 @@
 				function drawTimeDomain(){
 					var minValue = 9999999;
        					var maxValue = 0;
+					var currentData = [];
 					amplitudearray = timeDomain.getProcessedData();
-					console.log(amplitudearray);
+					//console.log(amplitudearray);
 					if(!amplitudearray){
 						return;
 					}
@@ -114,6 +130,8 @@
            					column = 0;
             					clearCanvas();
        					}
+
+					savedData.push([minValue, maxValue, Date()]);
 					
 					//console.log("draw");
 					if(!stoped) requestAnimFrame(drawTimeDomain);
@@ -134,7 +152,7 @@
 	</head>
 
 	<body>
-		<canvas id="canvas" width="800" height="256" ></canvas>
+		<!-- <canvas id="canvas" width="800" height="256" ></canvas> -->
 		<p id="controls">
 			<input type="button" id="start_button" value="Start">
 			<input type="button" id="stop_button" value="Stop">

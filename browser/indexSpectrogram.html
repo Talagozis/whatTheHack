@@ -130,10 +130,13 @@
 				//	console.log(frequencyArray);
 					if(frequencyArray){
 						//console.log(frequencyArray);
+						//console.log(column);
 						for(var i = 0; i < frequencyArray.length; i++){
-							console.log(colorScale(frequencyArray[i] / 256.0));
-							ctx.fillStyle = colorScale(frequencyArray[i] / 256.0);
-							ctx.fillRect(column, canvasHeight - i, 1, 1);
+							//console.log(colorScale(frequencyArray[i] / 256.0));
+							//ctx.fillStyle = colorScale(frequencyArray[i] / 256.0);
+							ctx.fillStyle = "#ff0000";
+							ctx.fillRect(column,canvasHeight - parseFloat(frequencyArray[i]), 1, 1);
+							//console.log(i);
 						}
 					
 						column += 1;

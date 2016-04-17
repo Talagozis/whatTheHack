@@ -205,16 +205,20 @@
 			       	var y_lo = canvasHeight - (canvasHeight * timeDomain[row][0]) - 1;
         			var y_hi = canvasHeight - (canvasHeight * timeDomain[row][1]) - 1;
 				console.log(y_lo + " " + y_hi);
-       				ctxTime.fillStyle = '#ffffff';
+       				ctxTime.fillStyle = '#785880';
        				ctxTime.fillRect(column,y_lo, 1, y_hi - y_lo);
         			// loop around the canvas when we reach the end
        				column += 1;
 				row += 1;
-       				if(column >= canvasWidth) {
-           				column = 0;
-            				clearCanvas();
-       				}
-				requestAnimFrame(drawTimeDomain);
+       				if(column <= canvasWidth) {
+           				//column = 0;
+            				//clearCanvas();
+					requestAnimFrame(drawTimeDomain);
+       				}else{
+					//column = 0;
+					//row = 0;
+					console.log("column = " + column);
+				}
 			}
 		</script>
 	</head>
