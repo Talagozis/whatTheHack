@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="508720c8-5c90-4da6-8e5f-ccdddc97e859" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings>
+      <CollectionMapping TypeName="System.Collections.ObjectModel.ObservableCollection`1" Category="List" />
+    </CollectionMappings>
+    <GenerateSerializableTypes>false</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://192.168.0.109:9000/wcf/snoring.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="Snoring.disco" MetadataType="Disco" ID="65ffff03-454e-4ae4-9839-f5de4bcd039c" SourceId="1" SourceUrl="http://192.168.0.109:9000/wcf/Snoring.svc?disco" />
+    <MetadataFile FileName="Snoring.xsd" MetadataType="Schema" ID="32190075-a187-4625-9b89-426b971bdf97" SourceId="1" SourceUrl="http://192.168.0.109:9000/wcf/Snoring.svc?xsd=xsd1" />
+    <MetadataFile FileName="Snoring1.xsd" MetadataType="Schema" ID="ed41ae8e-843f-4fd3-944b-56cde962ec38" SourceId="1" SourceUrl="http://192.168.0.109:9000/wcf/Snoring.svc?xsd=xsd0" />
+    <MetadataFile FileName="Snoring.wsdl" MetadataType="Wsdl" ID="e845c090-a0c4-400f-93fa-8b11f7b9032a" SourceId="1" SourceUrl="http://192.168.0.109:9000/wcf/Snoring.svc?wsdl" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>
