@@ -35,9 +35,20 @@
 		<script>
 			var patientsArray;
 			$(document).ready(function(){
+				$("#patients-pane").empty();
+				$("#patientCard").empty();
+				$("#record").empty();
+
+					$("#record").selectmenu({
+						change: function(event, data){
+							console.log(data.item);
+						}
+					});
+
+
 				$.ajax({
 					type: "GET",
-					url: "http://192.168.0.109:9000/api/getPatients?patientId=50478bd7-38c6-4047-9957-b18036dd0a87",
+					url: "http://192.168.0.109:9000/api/getPatients?doctorId=50478bd7-38c6-4047-9957-b18036dd0a87",
 					success: function(data, textStatus, jqXHR){
 						//console.log(data);
 						fillPatients(data);
@@ -54,11 +65,100 @@
 					patientsArray = JSON.parse(patients);
 					//console.log(patientsArray);
 					for(var i = 0; i < patientsArray.length; i++){
-						var htmlString = '<div class="well"> \n';
+						var htmlString = '<div class="well patient-well" id="';
+						htmlString += patientsArray[i].id + '">';
 						htmlString += '<p class="patient-name">' + patientsArray[i].surname + " " + patientsArray[i].forename + '</p> \n';
 						htmlString += '</div>';
 						$("#patients-pane").append(htmlString);
 					}
+					$(".patient-well").click(function(event){
+						//console.log("patient clicked");
+						//console.log(event.target.id);
+						var patientId = event.target.id;
+						var requestString =  "http://192.168.0.109:9000/api/getPatientProfil?patientId=" + patientId;
+						//console.log(requestString);
+						$.ajax({
+							type: "GET",
+							url: "http://192.168.0.109:9000/api/getPatientProfil?patientId=" + patientId,
+							success: function(data, textStatus, jqXHR){
+								fillPatientCard(JSON.parse(data));
+							},
+							error: function(jgXHR, textStatus, error){
+								console.log("error");
+								console.log(error);
+							}
+						});
+					});
+				}
+
+				function fillPatientCard(data){
+					$("#patientCard").empty();
+					//console.log(data);
+					var htmlString = "<tbody> \n";
+					htmlString += "<tr> \n";
+					htmlString += "<td> Heart disease </td> \n";
+					if(data.heartDisease > 0){
+						htmlString += '<td><span class="glyphicon glyphicon-ok"></span></td> \n';
+					}else{
+						htmlString += '<td><span class="glyphicon glyphicon-remove"></span></td> \n';
+					}
+					htmlString += "</tr> \n";
+
+					htmlString += "<tr> \n";
+					htmlString += "<td> Asthma </td> \n";
+					if(data.asthma > 0){
+						htmlString += '<td><span class="glyphicon glyphicon-ok"></span></td> \n';
+					}else{
+						htmlString += '<td><span class="glyphicon glyphicon-remove"></span></td> \n';
+					}
+					htmlString += "</tr> \n";
+
+					htmlString += "<tr> \n";
+					htmlString += "<td> Chronic Cough </td> \n";
+					if(data.chronicCough > 0){
+						htmlString += '<td><span class="glyphicon glyphicon-ok"></span></td> \n';
+					}else{
+						htmlString += '<td><span class="glyphicon glyphicon-remove"></span></td> \n';
+					}
+					htmlString += "</tr> \n";
+
+					htmlString += "<tr> \n";
+					htmlString += "<td> Obesity </td> \n";
+					if(data.obesity > 0){
+						htmlString += '<td><span class="glyphicon glyphicon-ok"></span></td> \n';
+					}else{
+						htmlString += '<td><span class="glyphicon glyphicon-remove"></span></td> \n';
+					}
+					htmlString += "</tr> \n";
+					
+					htmlString += "</tbody>"
+
+					$("#patientCard").append(htmlString);
+
+					fillRecordsList(data.snoringApis);
+				}
+
+				function fillRecordsList(snoringRecords){
+					//console.log(snoringRecords);
+					$("#record").empty();
+					for(var i = 0; i < snoringRecords.length; i++){
+						var currentRecord = snoringRecords[i];
+						var htmlString = '<option id="';
+						htmlString += currentRecord.id + '"';
+						htmlString += ' value="';
+						htmlString += currentRecord.startDate + '">';
+						htmlString += currentRecord.startDate;
+						htmlString += '</option> \n';
+						console.log(htmlString);
+						$("#record").append(htmlString);
+					}
+					/*
+					$("#record").selectmenu({
+						change: function(event, data){
+							console.log(data.item);
+						}
+					});
+					*/
 				}
 			});
 		</script>
@@ -68,49 +168,20 @@
 		<div class="container-fluid" id="main-container">
 			<!-- patients scroll pane -->
 			<div class="col-md-4" id="patients-pane">
-				<div class="well">
+				<div class="well patient-well">
 					<p class="patient-name">John Brown</p>
 				</div>
-				<div class="well">
+				<div class="well patient-well">
 					<p class="patient-name">Jim Mashlow</p>
 				</div>
-				<div class="well">
+				<div class="well patient-well">
 					<p class="patient-name">Natasa Blake</p>
-				</div>
-				<div class="well">
-					<p class="patient-name">Nick Greenfield</p>
-				</div>
-
-				<div class="well">
-					<p class="patient-name">John Brown</p>
-				</div>
-				<div class="well">
-					<p class="patient-name">Jim Mashlow</p>
-				</div>
-				<div class="well">
-					<p class="patient-name">Natasa Blake</p>
-				</div>
-				<div class="well">
-					<p class="patient-name">Nick Greenfield</p>
-				</div>
-
-				<div class="well">
-					<p class="patient-name">John Brown</p>
-				</div>
-				<div class="well">
-					<p class="patient-name">Jim Mashlow</p>
-				</div>
-				<div class="well">
-					<p class="patient-name">Natasa Blake</p>
-				</div>
-				<div class="well">
-					<p class="patient-name">Nick Greenfield</p>
 				</div>
 			</div>
 
 			<!-- selected patient pane -->
 			<div class="col-md-2" id="selected-patient-pane">
-				<table class="table table-striped">	
+				<table class="table table-striped" id="patientCard">	
 					<tbody>
 						<tr>
 							<td>Heart disease</td>
