@@ -1,0 +1,158 @@
+<html>
+	<head>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://bootswatch.com/superhero/bootstrap.min.css">
+		<style>
+			html, body {
+				height: 100%;
+				width: 100%
+				//background-color: #9eab57;
+			}
+
+			#main-container {
+				//height: 99%;
+				//background-color: #9eab57;
+			}
+
+			#patients-pane {
+				//background-color: #9eab57;
+				height: 100%;
+				overflow-y: scroll;
+			}
+
+			#selected-patient-pane {
+				//background-color: #bbc48b;
+			}
+
+			.patient-name {
+				text-align: center;
+			}
+		</style>
+		<script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
+		<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+		<script>
+			var patientsArray;
+			$(document).ready(function(){
+				$.ajax({
+					type: "GET",
+					url: "http://192.168.0.109:9000/api/getPatients?patientId=50478bd7-38c6-4047-9957-b18036dd0a87",
+					success: function(data, textStatus, jqXHR){
+						//console.log(data);
+						fillPatients(data);
+					},
+					error: function(jgXHR, textStatus, error){
+						console.log("error");
+						console.log(error);
+					}
+				});
+
+				function fillPatients(patients){
+					//console.log(patients);
+					$("#patients-pane").empty();
+					patientsArray = JSON.parse(patients);
+					//console.log(patientsArray);
+					for(var i = 0; i < patientsArray.length; i++){
+						var htmlString = '<div class="well"> \n';
+						htmlString += '<p class="patient-name">' + patientsArray[i].surname + " " + patientsArray[i].forename + '</p> \n';
+						htmlString += '</div>';
+						$("#patients-pane").append(htmlString);
+					}
+				}
+			});
+		</script>
+	</head>
+
+	<body>
+		<div class="container-fluid" id="main-container">
+			<!-- patients scroll pane -->
+			<div class="col-md-4" id="patients-pane">
+				<div class="well">
+					<p class="patient-name">John Brown</p>
+				</div>
+				<div class="well">
+					<p class="patient-name">Jim Mashlow</p>
+				</div>
+				<div class="well">
+					<p class="patient-name">Natasa Blake</p>
+				</div>
+				<div class="well">
+					<p class="patient-name">Nick Greenfield</p>
+				</div>
+
+				<div class="well">
+					<p class="patient-name">John Brown</p>
+				</div>
+				<div class="well">
+					<p class="patient-name">Jim Mashlow</p>
+				</div>
+				<div class="well">
+					<p class="patient-name">Natasa Blake</p>
+				</div>
+				<div class="well">
+					<p class="patient-name">Nick Greenfield</p>
+				</div>
+
+				<div class="well">
+					<p class="patient-name">John Brown</p>
+				</div>
+				<div class="well">
+					<p class="patient-name">Jim Mashlow</p>
+				</div>
+				<div class="well">
+					<p class="patient-name">Natasa Blake</p>
+				</div>
+				<div class="well">
+					<p class="patient-name">Nick Greenfield</p>
+				</div>
+			</div>
+
+			<!-- selected patient pane -->
+			<div class="col-md-2" id="selected-patient-pane">
+				<table class="table table-striped">	
+					<tbody>
+						<tr>
+							<td>Heart disease</td>
+							<td><span class="glyphicon glyphicon-ok"></span></td>
+						</tr>
+						<tr>
+							<td>Asthma</td>
+							<td><span class="glyphicon glyphicon-remove"></span></td>
+						</tr>
+						<tr>
+							<td>Chronic Cough</td>
+							<td><span class="glyphicon glyphicon-ok"></span></td>
+						</tr>
+						<tr>
+							<td>Obesity</td>
+							<td><span class="glyphicon glyphicon-ok"></span></td>
+						</tr>
+					</tbody>
+				</table>
+				
+				<br>
+
+				<fieldset>
+					<label for="selectedRecord">Select record</label>
+					<select name="record" id="record">
+						<option value="March 8 2015">March 8 2015</option>
+						<option value="March 9 2015">March 9 2015</option>
+					</select>
+				</fieldset>
+
+			</div>
+			<!-- selected record pane -->
+			<div class="col-md-6">
+				<canvas id="myCanvas1" width="800" height="256" style="border:1px solid #000000;"></canvas>
+				<canvas id="myCanvas2" width="800" height="256" style="border:1px solid #000000;"></canvas>
+				<a href="#" class="btn btn-info btn-lg">
+					<span class="glyphicon glyphicon-chevron-left"></span>
+				</a>
+				<a href="#" class="btn btn-info btn-lg">
+					<span class="glyphicon glyphicon-chevron-right"></span>
+				</a>
+			</div>
+		</div>
+	</body>
+</html>
