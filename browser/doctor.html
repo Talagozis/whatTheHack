@@ -35,10 +35,27 @@
 		<script>
 			var patientsArray;
 			var timeDomain = [];
+			var timeColumn = 0;
+			var canvasHeight = 250;
+			var canvasWidth = 800;
+			var ctxTime;
+			var column = 0;
+			var row = 0;
+
+			window.requestAnimFrame = 
+				window.requestAnimationFrame ||
+				window.webkitRequestAnimationFrame ||
+				window.mozRequestAnimationFrame ||
+				function(callback, element){
+					window.setTimeout(callback, 1000 / 60);
+				};
+
 			$(document).ready(function(){
 				$("#patients-pane").empty();
 				$("#patientCard").empty();
 				$("#record").empty();
+			
+				ctxTime = $("#canvasTime").get()[0].getContext("2d");			
 
 				$("#record").change(function(event){
 					var e = document.getElementById("record");
@@ -54,11 +71,12 @@
 							for(var i = 0; i < parsedData.length; i++){
 								var min = parsedData[i][0];
 								var max = parsedData[i][1];
-								timeDomain.push([min, max]);
+								timeDomain.push([parseFloat(min), parseFloat(max)]);
+								//timeDomain.push([min, max]);
 							}
 							//console.log(timeDomain);
 							//timeDomain = data;
-							//drawTimeDomain();
+							drawTimeDomain();
 						},
 						error: function(jgXHR, textStatus, error){
 							console.log("error");
@@ -183,7 +201,20 @@
 			});
 
 			function drawTimeDomain(){
-				//console.log(timeDomain);
+				console.log("draw");
+			       	var y_lo = canvasHeight - (canvasHeight * timeDomain[row][0]) - 1;
+        			var y_hi = canvasHeight - (canvasHeight * timeDomain[row][1]) - 1;
+				console.log(y_lo + " " + y_hi);
+       				ctxTime.fillStyle = '#ffffff';
+       				ctxTime.fillRect(column,y_lo, 1, y_hi - y_lo);
+        			// loop around the canvas when we reach the end
+       				column += 1;
+				row += 1;
+       				if(column >= canvasWidth) {
+           				column = 0;
+            				clearCanvas();
+       				}
+				requestAnimFrame(drawTimeDomain);
 			}
 		</script>
 	</head>
@@ -239,8 +270,8 @@
 			</div>
 			<!-- selected record pane -->
 			<div class="col-md-6">
-				<canvas id="myCanvas1" width="800" height="256" style="border:1px solid #000000;"></canvas>
-				<canvas id="myCanvas2" width="800" height="256" style="border:1px solid #000000;"></canvas>
+				<canvas id="canvasTime" width="800" height="256" style="border:1px solid #000000;"></canvas>
+				<canvas id="canvasSpectrogram" width="800" height="256" style="border:1px solid #000000;"></canvas>
 				<a href="#" class="btn btn-info btn-lg">
 					<span class="glyphicon glyphicon-chevron-left"></span>
 				</a>
