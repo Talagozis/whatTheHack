@@ -29,22 +29,51 @@
 			}
 		</style>
 		<script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
-		<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+		<!-- <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script> -->
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
 		<script>
 			var patientsArray;
+			var timeDomain = [];
 			$(document).ready(function(){
 				$("#patients-pane").empty();
 				$("#patientCard").empty();
 				$("#record").empty();
 
+				$("#record").change(function(event){
+					var e = document.getElementById("record");
+					//var e = $("#record");
+					var strTDid = e.options[e.selectedIndex].value;
+					//console.log(strUser);
+					$.ajax({
+						type: "GET",
+						url: "http://192.168.0.109:9000/api/getSnoring?snoringId=" + strTDid,
+						success: function(data, textStatus, jqXHR){
+							//console.log(data);
+							var parsedData = JSON.parse(data);
+							for(var i = 0; i < parsedData.length; i++){
+								var min = parsedData[i][0];
+								var max = parsedData[i][1];
+								timeDomain.push([min, max]);
+							}
+							//console.log(timeDomain);
+							//timeDomain = data;
+							//drawTimeDomain();
+						},
+						error: function(jgXHR, textStatus, error){
+							console.log("error");
+							console.log(error);
+						}
+					});
+				});
+
+					/*
 					$("#record").selectmenu({
 						change: function(event, data){
 							console.log(data.item);
 						}
 					});
-
+					*/
 
 				$.ajax({
 					type: "GET",
@@ -139,28 +168,23 @@
 				}
 
 				function fillRecordsList(snoringRecords){
-					//console.log(snoringRecords);
+					console.log(snoringRecords);
 					$("#record").empty();
 					for(var i = 0; i < snoringRecords.length; i++){
 						var currentRecord = snoringRecords[i];
-						var htmlString = '<option id="';
-						htmlString += currentRecord.id + '"';
-						htmlString += ' value="';
-						htmlString += currentRecord.startDate + '">';
-						htmlString += currentRecord.startDate;
-						htmlString += '</option> \n';
-						console.log(htmlString);
-						$("#record").append(htmlString);
+						var opt = document.createElement("option");
+						opt.value = currentRecord.id;
+						opt.innerHTML = currentRecord.startDate;
+						$("#record").append(opt);
 					}
-					/*
-					$("#record").selectmenu({
-						change: function(event, data){
-							console.log(data.item);
-						}
-					});
-					*/
+					
+
 				}
 			});
+
+			function drawTimeDomain(){
+				//console.log(timeDomain);
+			}
 		</script>
 	</head>
 
