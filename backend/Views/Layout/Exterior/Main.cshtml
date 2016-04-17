@@ -1,0 +1,48 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <meta charset="utf-8" />
+
+    <title>Logger</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+
+
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" />
+    <link rel="stylesheet" type="text/css" href="~/Content/premade/Boostrap-3.3.6/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/premade/fontawesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/premade/Bootstrap-social/bootstrap-social.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/Global/css/Footer.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/Exterior/css/uniform.default.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/Exterior/css/login3.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/Exterior/css/components.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/Exterior/css/plugins.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/Exterior/css/Custom.css?ts=20150506" />
+
+
+
+</head>
+<body class="login">
+
+    <div class="page-wrap">
+    @*Header*@
+    @Html.Partial("~/Views/Layout/global/header.cshtml")
+
+    @*Container*@
+    @RenderBody()
+    </div>
+
+    @*Footer*@
+    <footer class="site-footer">
+        @Html.Partial("~/Views/Layout/global/Footer.cshtml")
+    </footer>
+
+
+    <script src="~/Content/premade/jquery-2.1.4/jquery-2.1.4.min.js"></script>
+    <script src="~/Content/Exterior/js/Custom.js?ts=20150506"></script>
+
+</body>
+</html>
+
+
+

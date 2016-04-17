@@ -1,0 +1,178 @@
+<html>
+	<head>
+		<style>
+			#canvas{
+				margin-left: auto;
+				margin-right: auto;
+				display: block;
+				background-color: black;
+			}
+			#controls{
+				text-align: center;
+			}
+			#start_button, #stop_button{
+				font-size: 16pt;
+			}
+		</style>
+		<script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
+		<script src="http://localhost:8000/chroma.min.js"></script>
+		<script src="./frequencyDomain.js"></script>
+		<script>
+			$(document).ready(function(){
+				navigator.getUserMedia = 
+					navigator.getUserMedia ||
+					navigator.webkitGetUserMedia ||
+					navigator.mozGetUserMedia ||
+					navigator.msGetUserMedia;
+
+				window.requestAnimFrame = 
+					window.requestAnimationFrame ||
+					window.webkitRequestAnimationFrame ||
+					window.mozRequestAnimationFrame ||
+					function(callback, element){
+						window.setTimeout(callback, 1000 / 60);
+					};
+
+				window.AudioContext =
+					window.AudioContext ||
+					window.webkitAudioContext ||
+					window.mozAudioContext;
+
+				// vars for drawing
+				var column = 0;
+				var canvasHeight = 800;
+				var canvasWidth = 256;
+				var ctx;
+				//the audio context and processing module
+				var audioContext;
+				var frequencyDomain = new FrequencyDomain();
+				//var amplitudearray;
+				var frequencyArray;
+				var stoped = false;
+				var colorScale = new chroma.scale(['black', 'red', 'yellow', 'white']).out('hex');
+
+				ctx = $("#canvas").get()[0].getContext("2d");
+				try{
+					
+					audioContext = new AudioContext();
+				}catch(e){
+					alert("no webaudioapi support");
+				}
+
+				$("#start_button").click(function(e){
+					e.preventDefault();
+					clearCanvas();
+					//drawTimeDomain();
+					try{
+						navigator.getUserMedia({
+							video: false,
+							audio: true},
+							function(stream){
+								frequencyDomain.setAudioStream(stream);
+								frequencyDomain.setAudioContext(window.AudioContext);
+								frequencyDomain.start();
+								requestAnimFrame(drawSpectrogram);
+							},
+							onError
+						);
+					}catch(e){
+						console.log(e);
+					}
+				});
+
+				$("#stop_button").click(function(e){
+					e.preventDefault();
+					frequencyDomain.stop();
+					stoped = true;
+				});
+
+				function onError(e){
+					console.log(e);
+				}
+
+				function drawSpectrogram(){
+					/*
+					var minValue = 9999999;
+       					var maxValue = 0;
+					amplitudearray = frequencyDomain.getProcessedData();
+					console.log(amplitudearray);
+					if(!amplitudearray){
+						return;
+					}
+       					for (var i = 0; i < amplitudearray.length; i++) {
+            					var value = amplitudearray[i] / 256;
+           					if(value > maxValue) {
+               						maxValue = value;
+           					}else if(value < minValue) {
+               						minValue = value;
+            					}
+        				}
+       					var y_lo = canvasHeight - (canvasHeight * minValue) - 1;
+        				var y_hi = canvasHeight - (canvasHeight * maxValue) - 1;
+       					ctx.fillStyle = '#ffffff';
+       					ctx.fillRect(column,y_lo, 1, y_hi - y_lo);
+        				// loop around the canvas when we reach the end
+       					column += 1;
+       					if(column >= canvasWidth) {
+           					column = 0;
+            					clearCanvas();
+       					}
+					
+					//console.log("draw");
+					if(!stoped) requestAnimFrame(drawTimeDomain);
+					*/
+
+
+
+					//console.log("draw");
+					//if(!frequencyArray) return;
+					frequencyArray = frequencyDomain.getProcessedData();
+				//	console.log(frequencyArray);
+					if(frequencyArray){
+						//console.log(frequencyArray);
+						//console.log(column);
+						for(var i = 0; i < frequencyArray.length; i++){
+							//console.log(colorScale(frequencyArray[i] / 256.0));
+							//ctx.fillStyle = colorScale(frequencyArray[i] / 256.0);
+							ctx.fillStyle = "#ff0000";
+							ctx.fillRect(column,canvasHeight - parseFloat(frequencyArray[i]), 1, 1);
+							//console.log(i);
+						}
+					
+						column += 1;
+						if(column >= canvasWidth){
+							column = 0;
+							clearCanvas();
+						}
+
+					}
+					if(!stoped){
+						requestAnimFrame(drawSpectrogram);
+					}
+				}
+
+				function clearCanvas(){
+					/*
+				        column = 0;
+       					ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+				        // ctx.beginPath();
+				        ctx.strokeStyle = '#f00';
+				        var y = (canvasHeight / 2) + 0.5;
+				        ctx.moveTo(0, y);
+				        ctx.lineTo(canvasWidth-1, y);
+					ctx.stroke();
+					*/
+					ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+				}
+			});
+		</script>
+	</head>
+
+	<body>
+		<canvas id="canvas" width="800" height="256" ></canvas>
+		<p id="controls">
+			<input type="button" id="start_button" value="Start">
+			<input type="button" id="stop_button" value="Stop">
+		</p>
+	</body>
+</html>

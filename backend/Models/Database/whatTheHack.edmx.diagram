@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="6478674c265a4043853088f3a37a90e6" Name="Diagram1">
+        <EntityTypeShape EntityType="whatTheHackModel.AspNetRoles" Width="1.5" PointX="2.75" PointY="0.75" />
+        <EntityTypeShape EntityType="whatTheHackModel.AspNetUsers" Width="1.5" PointX="0.75" PointY="1.125" />
+        <EntityTypeShape EntityType="whatTheHackModel.PatientProfil" Width="1.5" PointX="3" PointY="3.25" />
+        <EntityTypeShape EntityType="whatTheHackModel.Snoring" Width="1.5" PointX="5.25" PointY="3" />
+        <AssociationConnector Association="whatTheHackModel.FK__PatientPr__userI__24927208" />
+        <AssociationConnector Association="whatTheHackModel.FK__Snoring__patient__276EDEB3" />
+        <AssociationConnector Association="whatTheHackModel.FK__PatientPr__docto__29572725" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

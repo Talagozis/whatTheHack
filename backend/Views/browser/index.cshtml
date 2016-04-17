@@ -1,0 +1,239 @@
+@using whatTheHack2.Models.Database
+@model AspNetUsers
+@{
+    ViewBag.Title = "Overview";
+    
+    var user = Model;
+}
+
+
+<html>
+	<head>
+		<style>
+			#canvas{
+				margin-left: auto;
+				margin-right: auto;
+				display: block;
+				background-color: black;
+			}
+			#controls{
+				text-align: center;
+			}
+			#start_button, #stop_button{
+				font-size: 16pt;
+			}
+		</style>
+		<script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
+		<!--<script src="~/Content/timeDomain.js"></script>-->
+        <script>
+            var TimeDomain = (function () {
+                var instance = {};
+
+                var audioContext;
+                var sourceNode;
+                var analyserNode;
+                var javascriptNode;
+                var sampleSize = 1024; // samples to collect before analysing
+                var amplitudeArray; // holds frequency amplitude data
+                var audioStream;
+
+                instance.setAudioContext = function (ac) {
+                    audioContext = new ac();
+                    //console.log("audio context:");
+                    //console.log(audioContext);
+                };
+
+                instance.setAudioStream = function (stream) {
+                    audioStream = stream;
+                    //console.log("audio stream");
+                    //console.log(audioStream);
+                };
+
+                instance.start = function () {
+                    sourceNode = audioContext.createMediaStreamSource(audioStream);
+                    analyserNode = audioContext.createAnalyser();
+                    javascriptNode = audioContext.createScriptProcessor(sampleSize, 1, 1);
+                    amplitudeArray = new Uint8Array(analyserNode.frequencyBinCount);
+                    //triggered when enough samples collected
+                    javascriptNode.onaudioprocess = function () {
+                        amplitudeArray = new Uint8Array(analyserNode.frequencyBinCount);
+                        analyserNode.getByteTimeDomainData(amplitudeArray);
+                        //console.log(amplitudeArray);
+                    };
+
+                    // Draw the audio graph
+                    sourceNode.connect(analyserNode);
+                    analyserNode.connect(javascriptNode);
+                    javascriptNode.connect(audioContext.destination);
+                };
+
+                instance.stop = function () {
+                    javascriptNode.onaudioprocess = null;
+                    if (audioStream) audioStream.stop();
+                    if (sourceNode) sourceNode.disconnect();
+                };
+
+                instance.getProcessedData = function () {
+                    //console.log(amplitudeArray);
+                    return amplitudeArray;
+                };
+
+                return instance;
+            });
+
+        </script>
+		<script>
+			$(document).ready(function(){
+				navigator.getUserMedia = 
+					navigator.getUserMedia ||
+					navigator.webkitGetUserMedia ||
+					navigator.mozGetUserMedia ||
+					navigator.msGetUserMedia;
+
+				window.requestAnimFrame = 
+					window.requestAnimationFrame ||
+					window.webkitRequestAnimationFrame ||
+					window.mozRequestAnimationFrame ||
+					function(callback, element){
+						window.setTimeout(callback, 1000 / 60);
+					};
+
+				window.AudioContext =
+					window.AudioContext ||
+					window.webkitAudioContext ||
+					window.mozAudioContext;
+
+				// vars for drawing
+				var column = 0;
+				var canvasHeight = 256;
+				var canvasWidth = 800;
+				var ctx;
+				//the audio context and processing module
+				var audioContext;
+				var timeDomain = new TimeDomain();
+				console.log(timeDomain);
+				var amplitudearray;
+				var stoped = false;
+				var timeDomainArray = [];
+				var savedData = {};
+				savedData.timeDomainArray = [];
+				savedData.userId = "@user.Id";
+			    savedData.sessionId = Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+				//console.log(timeDomain);
+			
+				//ctx = $("#canvas").get()[0].getContext("2d");
+				try{
+					
+					audioContext = new AudioContext();
+				}catch(e){
+					alert("no webaudioapi support");
+				}
+
+				$("#start_button").click(function(e){
+					e.preventDefault();
+					//clearCanvas();
+					//drawTimeDomain();
+					try{
+						navigator.getUserMedia({
+							video: false,
+							audio: true},
+							function (stream) {
+							    console.log(timeDomain);
+								timeDomain.setAudioStream(stream);
+								timeDomain.setAudioContext(window.AudioContext);
+								timeDomain.start();
+								console.log(timeDomain);
+								requestAnimFrame(drawTimeDomain);
+							},
+							onError
+						);
+					}catch(e){
+						console.log(e);
+					}
+				});
+
+				$("#stop_button").click(function(e){
+					e.preventDefault();
+					timeDomain.stop();
+					console.log(savedData);
+					//savedData.timeDomainArray = timeDomainArray;
+					stoped = true;
+					//console.log(JSON.stringify(savedData));
+					$.ajax({
+				                type: "POST",
+				                url: "/api/track",
+				                data: JSON.stringify(savedData),
+				                processData:false,
+				                contentType: "application/json; charset=utf-8",
+				                dataType: "json",
+				                success: function(data){
+				                    alert("200 - Done !!");
+				                }
+				        });
+				});
+
+				function onError(e){
+					console.log(e);
+				}
+
+				function drawTimeDomain(){
+					var minValue = 9999999;
+       					var maxValue = 0;
+					var currentData = [];
+					amplitudearray = timeDomain.getProcessedData();
+					//console.log(timeDomain);
+					//console.log(amplitudearray);
+					if(!amplitudearray){
+						return;
+					}
+       					for (var i = 0; i < amplitudearray.length; i++) {
+            					var value = amplitudearray[i] / 256;
+           					if(value > maxValue) {
+               						maxValue = value;
+           					}else if(value < minValue) {
+               						minValue = value;
+            					}
+       					}
+       					//console.log(minValue);
+       					//console.log(maxValue);
+                    /*
+       					var y_lo = canvasHeight - (canvasHeight * minValue) - 1;
+        				var y_hi = canvasHeight - (canvasHeight * maxValue) - 1;
+       					ctx.fillStyle = '#ffffff';
+       					ctx.fillRect(column,y_lo, 1, y_hi - y_lo);
+        				// loop around the canvas when we reach the end
+       					column += 1;
+       					if(column >= canvasWidth) {
+           					column = 0;
+            					clearCanvas();
+       					}
+                        */
+       					var d = new Date();
+       					savedData.timeDomainArray.push([minValue, maxValue, d.getFullYear() + "" + ("0" + (d.getMonth() + 1)).slice(-2) + "" + ("0" + d.getDate()).slice(-2) + "" + ("0" + d.getHours()).slice(-2) + "" + ("0" + d.getMinutes()).slice(-2) + "" + ("0" + d.getSeconds()).slice(-2)]);
+					
+					//console.log("draw");
+					if(!stoped) requestAnimFrame(drawTimeDomain);
+				}
+
+				function clearCanvas(){
+				        column = 0;
+       					ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+				        // ctx.beginPath();
+				        ctx.strokeStyle = '#f00';
+				        var y = (canvasHeight / 2) + 0.5;
+				        ctx.moveTo(0, y);
+				        ctx.lineTo(canvasWidth-1, y);
+					ctx.stroke();
+				}
+			});
+		</script>
+	</head>
+
+	<body>
+		<!-- <canvas id="canvas" width="800" height="256" ></canvas> -->
+		<p id="controls">
+			<input type="button" id="start_button" value="Start">
+			<input type="button" id="stop_button" value="Stop">
+		</p>
+	</body>
+</html>

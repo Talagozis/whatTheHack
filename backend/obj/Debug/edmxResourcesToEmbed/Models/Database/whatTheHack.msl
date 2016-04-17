@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="whatTheHackModelStoreContainer" CdmEntityContainer="whatTheHackEntities">
+    <EntitySetMapping Name="AspNetRoles">
+      <EntityTypeMapping TypeName="whatTheHackModel.AspNetRoles">
+        <MappingFragment StoreEntitySet="AspNetRoles">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AspNetUsers">
+      <EntityTypeMapping TypeName="whatTheHackModel.AspNetUsers">
+        <MappingFragment StoreEntitySet="AspNetUsers">
+          <ScalarProperty Name="country" ColumnName="country" />
+          <ScalarProperty Name="city" ColumnName="city" />
+          <ScalarProperty Name="addressLine" ColumnName="addressLine" />
+          <ScalarProperty Name="mobileNumber" ColumnName="mobileNumber" />
+          <ScalarProperty Name="amka" ColumnName="amka" />
+          <ScalarProperty Name="insurance" ColumnName="insurance" />
+          <ScalarProperty Name="job" ColumnName="job" />
+          <ScalarProperty Name="maritalStatusId" ColumnName="maritalStatusId" />
+          <ScalarProperty Name="gender" ColumnName="gender" />
+          <ScalarProperty Name="dob" ColumnName="dob" />
+          <ScalarProperty Name="fatherName" ColumnName="fatherName" />
+          <ScalarProperty Name="surname" ColumnName="surname" />
+          <ScalarProperty Name="forename" ColumnName="forename" />
+          <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+          <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+          <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+          <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+          <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+          <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+          <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+          <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PatientProfil">
+      <EntityTypeMapping TypeName="whatTheHackModel.PatientProfil">
+        <MappingFragment StoreEntitySet="PatientProfil">
+          <ScalarProperty Name="obesity" ColumnName="obesity" />
+          <ScalarProperty Name="chronicCough" ColumnName="chronicCough" />
+          <ScalarProperty Name="asthma" ColumnName="asthma" />
+          <ScalarProperty Name="heartDisease" ColumnName="heartDisease" />
+          <ScalarProperty Name="doctorUserId" ColumnName="doctorUserId" />
+          <ScalarProperty Name="userId" ColumnName="userId" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Snoring">
+      <EntityTypeMapping TypeName="whatTheHackModel.Snoring">
+        <MappingFragment StoreEntitySet="Snoring">
+          <ScalarProperty Name="patientProfilId" ColumnName="patientProfilId" />
+          <ScalarProperty Name="data" ColumnName="data" />
+          <ScalarProperty Name="endDate" ColumnName="endDate" />
+          <ScalarProperty Name="startDate" ColumnName="startDate" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

@@ -1,0 +1,288 @@
+<html>
+	<head>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://bootswatch.com/superhero/bootstrap.min.css">
+		<style>
+			html, body {
+				height: 100%;
+				width: 100%
+				//background-color: #9eab57;
+			}
+
+			#main-container {
+				//height: 99%;
+				//background-color: #9eab57;
+			}
+
+			#patients-pane {
+				//background-color: #9eab57;
+				height: 100%;
+				overflow-y: scroll;
+			}
+
+			#selected-patient-pane {
+				//background-color: #bbc48b;
+			}
+
+			.patient-name {
+				text-align: center;
+			}
+		</style>
+		<script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
+		<!-- <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script> -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+		<script>
+			var patientsArray;
+			var timeDomain = [];
+			var timeColumn = 0;
+			var canvasHeight = 250;
+			var canvasWidth = 800;
+			var ctxTime;
+			var column = 0;
+			var row = 0;
+
+			window.requestAnimFrame = 
+				window.requestAnimationFrame ||
+				window.webkitRequestAnimationFrame ||
+				window.mozRequestAnimationFrame ||
+				function(callback, element){
+					window.setTimeout(callback, 1000 / 60);
+				};
+
+			$(document).ready(function(){
+				$("#patients-pane").empty();
+				$("#patientCard").empty();
+				$("#record").empty();
+			
+				ctxTime = $("#canvasTime").get()[0].getContext("2d");			
+
+				$("#record").change(function(event){
+					var e = document.getElementById("record");
+					//var e = $("#record");
+					var strTDid = e.options[e.selectedIndex].value;
+					//console.log(strUser);
+					$.ajax({
+						type: "GET",
+						url: "http://192.168.0.109:9000/api/getSnoring?snoringId=" + strTDid,
+						success: function(data, textStatus, jqXHR){
+							//console.log(data);
+							var parsedData = JSON.parse(data);
+							for(var i = 0; i < parsedData.length; i++){
+								var min = parsedData[i][0];
+								var max = parsedData[i][1];
+								timeDomain.push([parseFloat(min), parseFloat(max)]);
+								//timeDomain.push([min, max]);
+							}
+							//console.log(timeDomain);
+							//timeDomain = data;
+							drawTimeDomain();
+						},
+						error: function(jgXHR, textStatus, error){
+							console.log("error");
+							console.log(error);
+						}
+					});
+				});
+
+					/*
+					$("#record").selectmenu({
+						change: function(event, data){
+							console.log(data.item);
+						}
+					});
+					*/
+
+				$.ajax({
+					type: "GET",
+					url: "http://192.168.0.109:9000/api/getPatients?doctorId=50478bd7-38c6-4047-9957-b18036dd0a87",
+					success: function(data, textStatus, jqXHR){
+						//console.log(data);
+						fillPatients(data);
+					},
+					error: function(jgXHR, textStatus, error){
+						console.log("error");
+						console.log(error);
+					}
+				});
+
+				function fillPatients(patients){
+					//console.log(patients);
+					$("#patients-pane").empty();
+					patientsArray = JSON.parse(patients);
+					//console.log(patientsArray);
+					for(var i = 0; i < patientsArray.length; i++){
+						var htmlString = '<div class="well patient-well" id="';
+						htmlString += patientsArray[i].id + '">';
+						htmlString += '<p class="patient-name">' + patientsArray[i].surname + " " + patientsArray[i].forename + '</p> \n';
+						htmlString += '</div>';
+						$("#patients-pane").append(htmlString);
+					}
+					$(".patient-well").click(function(event){
+						//console.log("patient clicked");
+						//console.log(event.target.id);
+						var patientId = event.target.id;
+						var requestString =  "http://192.168.0.109:9000/api/getPatientProfil?patientId=" + patientId;
+						//console.log(requestString);
+						$.ajax({
+							type: "GET",
+							url: "http://192.168.0.109:9000/api/getPatientProfil?patientId=" + patientId,
+							success: function(data, textStatus, jqXHR){
+								fillPatientCard(JSON.parse(data));
+							},
+							error: function(jgXHR, textStatus, error){
+								console.log("error");
+								console.log(error);
+							}
+						});
+					});
+				}
+
+				function fillPatientCard(data){
+					$("#patientCard").empty();
+					//console.log(data);
+					var htmlString = "<tbody> \n";
+					htmlString += "<tr> \n";
+					htmlString += "<td> Heart disease </td> \n";
+					if(data.heartDisease > 0){
+						htmlString += '<td><span class="glyphicon glyphicon-ok"></span></td> \n';
+					}else{
+						htmlString += '<td><span class="glyphicon glyphicon-remove"></span></td> \n';
+					}
+					htmlString += "</tr> \n";
+
+					htmlString += "<tr> \n";
+					htmlString += "<td> Asthma </td> \n";
+					if(data.asthma > 0){
+						htmlString += '<td><span class="glyphicon glyphicon-ok"></span></td> \n';
+					}else{
+						htmlString += '<td><span class="glyphicon glyphicon-remove"></span></td> \n';
+					}
+					htmlString += "</tr> \n";
+
+					htmlString += "<tr> \n";
+					htmlString += "<td> Chronic Cough </td> \n";
+					if(data.chronicCough > 0){
+						htmlString += '<td><span class="glyphicon glyphicon-ok"></span></td> \n';
+					}else{
+						htmlString += '<td><span class="glyphicon glyphicon-remove"></span></td> \n';
+					}
+					htmlString += "</tr> \n";
+
+					htmlString += "<tr> \n";
+					htmlString += "<td> Obesity </td> \n";
+					if(data.obesity > 0){
+						htmlString += '<td><span class="glyphicon glyphicon-ok"></span></td> \n';
+					}else{
+						htmlString += '<td><span class="glyphicon glyphicon-remove"></span></td> \n';
+					}
+					htmlString += "</tr> \n";
+					
+					htmlString += "</tbody>"
+
+					$("#patientCard").append(htmlString);
+
+					fillRecordsList(data.snoringApis);
+				}
+
+				function fillRecordsList(snoringRecords){
+					console.log(snoringRecords);
+					$("#record").empty();
+					for(var i = 0; i < snoringRecords.length; i++){
+						var currentRecord = snoringRecords[i];
+						var opt = document.createElement("option");
+						opt.value = currentRecord.id;
+						opt.innerHTML = currentRecord.startDate;
+						$("#record").append(opt);
+					}
+					
+
+				}
+			});
+
+			function drawTimeDomain(){
+				console.log("draw");
+			       	var y_lo = canvasHeight - (canvasHeight * timeDomain[row][0]) - 1;
+        			var y_hi = canvasHeight - (canvasHeight * timeDomain[row][1]) - 1;
+				console.log(y_lo + " " + y_hi);
+       				ctxTime.fillStyle = '#785880';
+       				ctxTime.fillRect(column,y_lo, 1, y_hi - y_lo);
+        			// loop around the canvas when we reach the end
+       				column += 1;
+				row += 1;
+       				if(column <= canvasWidth) {
+           				//column = 0;
+            				//clearCanvas();
+					requestAnimFrame(drawTimeDomain);
+       				}else{
+					//column = 0;
+					//row = 0;
+					console.log("column = " + column);
+				}
+			}
+		</script>
+	</head>
+
+	<body>
+		<div class="container-fluid" id="main-container">
+			<!-- patients scroll pane -->
+			<div class="col-md-4" id="patients-pane">
+				<div class="well patient-well">
+					<p class="patient-name">John Brown</p>
+				</div>
+				<div class="well patient-well">
+					<p class="patient-name">Jim Mashlow</p>
+				</div>
+				<div class="well patient-well">
+					<p class="patient-name">Natasa Blake</p>
+				</div>
+			</div>
+
+			<!-- selected patient pane -->
+			<div class="col-md-2" id="selected-patient-pane">
+				<table class="table table-striped" id="patientCard">	
+					<tbody>
+						<tr>
+							<td>Heart disease</td>
+							<td><span class="glyphicon glyphicon-ok"></span></td>
+						</tr>
+						<tr>
+							<td>Asthma</td>
+							<td><span class="glyphicon glyphicon-remove"></span></td>
+						</tr>
+						<tr>
+							<td>Chronic Cough</td>
+							<td><span class="glyphicon glyphicon-ok"></span></td>
+						</tr>
+						<tr>
+							<td>Obesity</td>
+							<td><span class="glyphicon glyphicon-ok"></span></td>
+						</tr>
+					</tbody>
+				</table>
+				
+				<br>
+
+				<fieldset>
+					<label for="selectedRecord">Select record</label>
+					<select name="record" id="record">
+						<option value="March 8 2015">March 8 2015</option>
+						<option value="March 9 2015">March 9 2015</option>
+					</select>
+				</fieldset>
+
+			</div>
+			<!-- selected record pane -->
+			<div class="col-md-6">
+				<canvas id="canvasTime" width="800" height="256" style="border:1px solid #000000;"></canvas>
+				<canvas id="canvasSpectrogram" width="800" height="256" style="border:1px solid #000000;"></canvas>
+				<a href="#" class="btn btn-info btn-lg">
+					<span class="glyphicon glyphicon-chevron-left"></span>
+				</a>
+				<a href="#" class="btn btn-info btn-lg">
+					<span class="glyphicon glyphicon-chevron-right"></span>
+				</a>
+			</div>
+		</div>
+	</body>
+</html>

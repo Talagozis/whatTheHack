@@ -1,0 +1,66 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <meta charset="utf-8" />
+
+    <title>Logger</title>
+    <link rel="shortcut icon" type="image/x-icon" href="data:image/x-icon;base64, AAABAAEAEBAAAAAAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAAAAAAAAAAAAAAAAA
+        AAAAAAD///8B////Af///wEAAAAHEQ8P2Sc5Uv0VGiHPDg4OnxkeKdkcJDL/Dw8Q0Q8QEosWGyL5
+        EhMYoRAODsUMDAxT////AQAAAA8HBwdNCQkJVw8PD+MrP1z/LUFg/xITF/kbIzD7Mkls/xcbJP8T
+        FBf3Iy9D/xogK/cQDw/5CwsLLf///wH///8BEBAQYxkfKu8UFx3/MUdp/zZPdP8gKzz/KDdQ/zlT
+        fP8vQ2P/HCYz/zJIa/8cJDD/Dw8PvQAAABH///8BAAAAEQoKCk0fJzbPLD9c/zlUff85U3z/NExy
+        /zVOc/86VX7/OlV+/zlUff8xR2n/GR8o/w4ODqMJCQkdAAAABQkJCTcPERK3FRkf7zRMb/81SWn/
+        OE9z/zhTe/84U3v/OFJ7/zlUff83UXj/JTNJ/xITFcsPDw97AAAADwAAAAUHBwcjEBEUoyQyR/83
+        UXj/cX2R/3N7hf88TGf/OVB0/zZPdv83Unr/Hyo7/xMWG/sNDQ2bAAAAFf///wEHBwcjCQkJWQ8O
+        DvEhLD7/L0Zn/3aCk/+jo6T/gYSL/zxMZP8dJDD/NU1y/xIUGN0ICAghAAAADwAAAAP///8BAAAA
+        AwAAAAcWGh5/HScz+yEsPv82UHj/NEtt/1Vyk/+Pv+7/fabN/zJEXv8YHifhBwcHJ////wH///8B
+        ////Af///wENEhI7RVpu2TZFVf8SEhT/P1l7/1Zzj/+Luef/d5/E/2KCoP9pi6z/Dg4OuQAAAAX/
+        //8B////Af///wEAAAALERMTaSw3Qv8qND//FBUW/26RtP9qjKz/U26G/2SFo/9uk7X/RVpu/w8P
+        D4v///8B////Af///wH///8BAAAACwwMDGcZGx//HCEl/xMVFv91nL//PU5e/1t3kv91m8D/ZISj
+        /zRCUP8QEBCj////Af///wH///8B////Af///wELCwsvFCpOzRc4bf8YSJT/I2LC/yBXrf8hR4D/
+        I1Ob/x5Ki/8TFRj/Dg4Ot////wH///8B////Af///wH///8BCwsLGQ8XJaURHTD/FkKH/x9s5/8d
+        Yc7/GEaS/xxfyf8VMV7/EA8QzwAAACf///8B////Af///wH///8B////AQAAAAUVQIJ5GEaQ+RY+
+        ff8ZUKb/FThx/xY+f/8VMmH/EiI98QwIDD////8B////Af///wH///8B////Af///wH///8BDSNB
+        OxU4bdMZTaH/Hmvl/xU7df8XQ4n/FTdr9xAdNI0AAAAF////Af///wH///8B////Af///wH///8B
+        ////AQAAAAkPHDB3FC1V8RQyYf8RIz7zEShKwRAgN28LCxUZ////Af///wH///8B////Af///wH/
+        //8BAAD//wAA//8AAP//AAD//wAA//8AAP//AAD//wAA//8AAP//AAD//wAA//8AAP//AAD//wAA
+        //8AAP//AAD//w==" />
+
+
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" />
+    <link rel="stylesheet" type="text/css" href="~/Content/premade/Boostrap-3.3.6/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/premade/fontawesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/premade/Bootstrap-social/bootstrap-social.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/premade/Sb-Admin-2/css/sb-admin-2.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/Global/css/Footer.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/My/css/Custom.css?ts=20150506" />
+
+
+
+</head>
+<body>
+
+    <div class="page-wrap row" style="margin:0;">
+        @*Header*@
+        @Html.Partial("~/Views/Layout/global/header.cshtml")
+    
+        @*Container*@    
+        @RenderBody()
+    </div>
+
+    @*Footer*@
+    <footer class="site-footer">        
+        @Html.Partial("~/Views/Layout/global/Footer.cshtml")
+    </footer>
+
+
+    @*<script src="~/Content/premade/jquery/jquery-2.1.4.min.js"></script>*@
+    <script src="~/Content/premade/Sb-Admin-2/js/sb-admin-2.js"></script>
+    <script src="~/Content/my/js/Custom.js?ts=20150506"></script>
+
+</body>
+</html>
+
+
+

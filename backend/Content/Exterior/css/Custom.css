@@ -1,0 +1,189 @@
+﻿@font-face {
+    font-family: "Open Sans";
+    font-style: normal;
+    font-weight: 300;
+    src: local("Open Sans Light"), local("OpenSans-Light"), url("http://fonts.gstatic.com/s/opensans/v10/DXI1ORHCpsQm3Vp6mXoaTRsxEYwM7FgeyaSgU71cLG0.woff") format("woff");
+}
+@font-face {
+    font-family: "Open Sans";
+    font-style: normal;
+    font-weight: 400;
+    src: local("Open Sans"), local("OpenSans"), url("http://fonts.gstatic.com/s/opensans/v10/uYKcPVoh6c5R0NpdEY5A-Q.woff") format("woff");
+}
+@font-face {
+    font-family: "Open Sans";
+    font-style: normal;
+    font-weight: 600;
+    src: local("Open Sans Semibold"), local("OpenSans-Semibold"), url("http://fonts.gstatic.com/s/opensans/v10/MTP_ySUJH_bn48VBG8sNShsxEYwM7FgeyaSgU71cLG0.woff") format("woff");
+}
+@font-face {
+    font-family: "Open Sans";
+    font-style: normal;
+    font-weight: 700;
+    src: local("Open Sans Bold"), local("OpenSans-Bold"), url("http://fonts.gstatic.com/s/opensans/v10/k3k702ZOKiLJc3WVjuplzBsxEYwM7FgeyaSgU71cLG0.woff") format("woff");
+}
+
+
+body {
+    background: none repeat scroll 0 0 #edf0f5 !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: tahoma,"Open Sans",sans-serif;
+    font-weight: 300;
+}
+
+.page-sidebar .sidebar-toggler,
+.page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .sidebar-toggler {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.page-footer-inner {
+    width: 100%;
+}
+
+.page-footer {
+    padding: 4px 0px;
+    height: auto;
+    background:#21241c; 
+    color:white;
+}
+
+.page-bar .page-breadcrumb > li > a, .page-bar .page-breadcrumb > li > span {
+    font-size: 17px;
+}
+
+.page-bar .page-breadcrumb > li > i {
+    font-size: 20px;
+}
+
+.label.label-sm {
+    font-size: 15px;
+    padding: 0 4px 1px;
+}
+
+.nav-tabs, .nav-pills {
+    margin-bottom: 15px;
+}
+
+.page-content-wrapper .page-content {
+    /* margin-left: 235px; */
+    margin-top: 0;
+    min-height:600px;
+    padding: 10px 20px;
+}
+
+.page-bar {
+    background-color: #ebebeb;
+    margin-bottom: 10px;
+}
+
+.portlet {
+    margin-bottom: 15px;
+}
+
+.tabbable > .nav-tabs > li.active {
+    border-top: 3px solid #f4d03f;
+}
+
+.tabbable > .nav-tabs > li > a {
+    margin-right: 0;
+}
+
+.close {
+    background-image: none !important;
+    background-repeat: inherit !important;
+    text-indent: inherit;
+    height: auto;
+    width: auto;
+}
+
+.datepicker{
+    z-index:10051;
+}
+
+.page-bar .page-breadcrumb {
+    padding: 6px;
+}
+
+.dashboard-stat .visual > i {
+    margin-left: -20px;
+}
+
+.dashboard-stat {
+    cursor:pointer;
+}
+
+.page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu > li.active > a, .page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu > li.active.open > a, .page-sidebar .page-sidebar-menu > li.active > a, .page-sidebar .page-sidebar-menu > li.active.open > a {
+    background: none repeat scroll 0 0 #e97200;
+}
+
+.page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu > li.active > a:hover, .page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu > li.active.open > a:hover, .page-sidebar .page-sidebar-menu > li.active > a:hover, .page-sidebar .page-sidebar-menu > li.active.open > a:hover {
+    background: none repeat scroll 0 0 #e97200;
+}
+
+.table .btn {
+    margin: -4px 0 4px;
+}
+
+.btn-icon-only {
+    height: 23px;
+    width: 23px;
+}
+
+.messageBoxPopup {
+    font-size:22px;
+    font-weight:bold;
+}
+
+.btn-icon-only > [class^="icon-"], .btn-icon-only > i {
+    margin-top: 0px;
+}
+
+.table-condensed > thead > tr > th, .table-condensed > tbody > tr > th, .table-condensed > tfoot > tr > th, .table-condensed > thead > tr > td, .table-condensed > tbody > tr > td, .table-condensed > tfoot > tr > td {
+    padding: 8px 8px 0px;
+}
+.loadingRow, .loadingRow > .fa-spin {
+    text-align:center;
+    font-size:22px;
+}
+
+.btn-xs {
+    padding: 2px 5px;
+}
+
+.dashboard-stat.customOpacity .visual > i {
+    opacity: 0.2;
+}
+
+.page-header.navbar {
+    height: 45px;
+    min-height: 45px;
+}
+
+.page-header-fixed .page-container {
+    margin-top: 45px;
+}
+
+.page-header.navbar .page-logo {
+    height: 45px;
+}
+
+.page-sidebar-menu.page-sidebar-menu-hover-submenu > li:hover > a > .arrow {
+    /*margin-top: -30px;*/
+}
+
+.page-header.navbar .top-menu .navbar-nav > li.dropdown-user .dropdown-toggle {
+    padding: 12px;
+}
+
+.page-header.navbar .top-menu .navbar-nav > li.dropdown {
+    height: 45px;
+}
+
+.page-sidebar .page-sidebar-menu > li > a > .title, .page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu > li > a > .title {
+    margin-top: 12px;
+}
+
+
