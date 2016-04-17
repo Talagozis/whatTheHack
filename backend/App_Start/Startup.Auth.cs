@@ -5,9 +5,9 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
-using whatTheHack.Models;
+using whatTheHack2.Models;
 
-namespace whatTheHack
+namespace whatTheHack2
 {
     public partial class Startup
     {

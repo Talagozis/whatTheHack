@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace whatTheHack.Models
+namespace whatTheHack2.Models
 {
     public class ExternalLoginConfirmationViewModel
     {

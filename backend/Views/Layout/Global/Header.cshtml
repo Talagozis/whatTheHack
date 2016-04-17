@@ -1,0 +1,34 @@
+﻿<div style="background:#1e8b9b; ">
+    @*#44b1c1*@ @*#37a4b4*@
+    <div class="container" style="height: 81px; padding: 5px 0px;">
+
+        <form class="login-form" id="logoutForm" action="@Url.Action("LogOff", "account")" method="post">
+            @Html.AntiForgeryToken()
+            <div class="row">
+                <div class="col-md-5">
+                    <a href="/" style="font-size:32px; font-weight:bold; text-decoration:none;">
+                        <img src="http://bolognaolistica.com/wp-content/uploads/2015/01/CUPCAKEBELLO.png" style="height:70px; width:72px">
+                        <span style="color: #F47321;">whatThe</span><span style="color:#edf0f5;">Hack</span>
+                    </a>
+                </div>
+
+                <div class="col-md-1 col-md-offset-6 " style="padding:25px 15px; font-size:15px;">
+                    @if (Request.IsAuthenticated)
+                    {
+                        <a href="javascript:document.getElementById('logoutForm').submit()" style="color:white;">Αποσύνδεση</a>
+                    }
+                </div>
+
+            </div>
+        </form>
+
+    </div>
+</div>
+
+<style>
+    .vcenter {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+}
+</style>

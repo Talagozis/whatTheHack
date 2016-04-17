@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="whatTheHackModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="AspNetRoles">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AspNetUsers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+    <Property Name="Email" Type="nvarchar" MaxLength="256" />
+    <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
+    <Property Name="PasswordHash" Type="nvarchar(max)" />
+    <Property Name="SecurityStamp" Type="nvarchar(max)" />
+    <Property Name="PhoneNumber" Type="nvarchar(max)" />
+    <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
+    <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
+    <Property Name="LockoutEndDateUtc" Type="datetime" />
+    <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
+    <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+    <Property Name="forename" Type="nchar" MaxLength="255" />
+    <Property Name="surname" Type="nchar" MaxLength="255" />
+    <Property Name="fatherName" Type="nchar" MaxLength="255" />
+    <Property Name="dob" Type="datetime2" Precision="0" />
+    <Property Name="gender" Type="int" />
+    <Property Name="maritalStatusId" Type="int" />
+    <Property Name="job" Type="nchar" MaxLength="255" />
+    <Property Name="insurance" Type="nchar" MaxLength="255" />
+    <Property Name="amka" Type="nchar" MaxLength="50" />
+    <Property Name="mobileNumber" Type="nchar" MaxLength="255" />
+    <Property Name="addressLine" Type="nchar" MaxLength="255" />
+    <Property Name="city" Type="nchar" MaxLength="255" />
+    <Property Name="country" Type="nchar" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="PatientProfil">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="userId" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="doctorUserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="heartDisease" Type="int" />
+    <Property Name="asthma" Type="int" />
+    <Property Name="chronicCough" Type="int" />
+    <Property Name="obesity" Type="int" />
+  </EntityType>
+  <EntityType Name="Snoring">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="startDate" Type="datetime2" Precision="0" />
+    <Property Name="endDate" Type="datetime2" Precision="0" />
+    <Property Name="data" Type="nvarchar(max)" />
+    <Property Name="patientProfilId" Type="int" />
+  </EntityType>
+  <Association Name="FK__PatientPr__docto__29572725">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+    <End Role="PatientProfil" Type="Self.PatientProfil" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PatientProfil">
+        <PropertyRef Name="doctorUserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__PatientPr__userI__24927208">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+    <End Role="PatientProfil" Type="Self.PatientProfil" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PatientProfil">
+        <PropertyRef Name="userId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Snoring__patient__276EDEB3">
+    <End Role="PatientProfil" Type="Self.PatientProfil" Multiplicity="0..1" />
+    <End Role="Snoring" Type="Self.Snoring" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PatientProfil">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Snoring">
+        <PropertyRef Name="patientProfilId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="whatTheHackModelStoreContainer">
+    <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PatientProfil" EntityType="Self.PatientProfil" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Snoring" EntityType="Self.Snoring" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__PatientPr__docto__29572725" Association="Self.FK__PatientPr__docto__29572725">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="PatientProfil" EntitySet="PatientProfil" />
+    </AssociationSet>
+    <AssociationSet Name="FK__PatientPr__userI__24927208" Association="Self.FK__PatientPr__userI__24927208">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="PatientProfil" EntitySet="PatientProfil" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Snoring__patient__276EDEB3" Association="Self.FK__Snoring__patient__276EDEB3">
+      <End Role="PatientProfil" EntitySet="PatientProfil" />
+      <End Role="Snoring" EntitySet="Snoring" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

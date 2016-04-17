@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Optimization;
 
-namespace whatTheHack
+namespace whatTheHack2
 {
     public class BundleConfig
     {

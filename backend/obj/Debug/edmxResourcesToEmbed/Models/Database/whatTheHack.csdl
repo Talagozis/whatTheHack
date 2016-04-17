@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="whatTheHackModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="whatTheHackEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="AspNetRoles" EntityType="whatTheHackModel.AspNetRoles" />
+    <EntitySet Name="AspNetUsers" EntityType="whatTheHackModel.AspNetUsers" />
+    <EntitySet Name="PatientProfil" EntityType="whatTheHackModel.PatientProfil" />
+    <EntitySet Name="Snoring" EntityType="whatTheHackModel.Snoring" />
+    <AssociationSet Name="FK__PatientPr__userI__24927208" Association="whatTheHackModel.FK__PatientPr__userI__24927208">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="PatientProfil" EntitySet="PatientProfil" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Snoring__patient__276EDEB3" Association="whatTheHackModel.FK__Snoring__patient__276EDEB3">
+      <End Role="PatientProfil" EntitySet="PatientProfil" />
+      <End Role="Snoring" EntitySet="Snoring" />
+    </AssociationSet>
+    <AssociationSet Name="FK__PatientPr__docto__29572725" Association="whatTheHackModel.FK__PatientPr__docto__29572725">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="PatientProfil" EntitySet="PatientProfil" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="AspNetRoles">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="AspNetUsers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+    <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+    <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+    <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+    <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+    <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+    <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+    <Property Name="forename" Type="String" MaxLength="255" FixedLength="true" Unicode="true" />
+    <Property Name="surname" Type="String" MaxLength="255" FixedLength="true" Unicode="true" />
+    <Property Name="fatherName" Type="String" MaxLength="255" FixedLength="true" Unicode="true" />
+    <Property Name="dob" Type="DateTime" Precision="0" />
+    <Property Name="gender" Type="Int32" />
+    <Property Name="maritalStatusId" Type="Int32" />
+    <Property Name="job" Type="String" MaxLength="255" FixedLength="true" Unicode="true" />
+    <Property Name="insurance" Type="String" MaxLength="255" FixedLength="true" Unicode="true" />
+    <Property Name="amka" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+    <Property Name="mobileNumber" Type="String" MaxLength="255" FixedLength="true" Unicode="true" />
+    <Property Name="addressLine" Type="String" MaxLength="255" FixedLength="true" Unicode="true" />
+    <Property Name="city" Type="String" MaxLength="255" FixedLength="true" Unicode="true" />
+    <Property Name="country" Type="String" MaxLength="255" FixedLength="true" Unicode="true" />
+    <NavigationProperty Name="PatientProfil" Relationship="whatTheHackModel.FK__PatientPr__userI__24927208" FromRole="AspNetUsers" ToRole="PatientProfil" />
+    <NavigationProperty Name="PatientProfil1" Relationship="whatTheHackModel.FK__PatientPr__docto__29572725" FromRole="AspNetUsers" ToRole="PatientProfil" />
+  </EntityType>
+  <EntityType Name="PatientProfil">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="userId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AspNetUsers" Relationship="whatTheHackModel.FK__PatientPr__userI__24927208" FromRole="PatientProfil" ToRole="AspNetUsers" />
+    <NavigationProperty Name="Snoring" Relationship="whatTheHackModel.FK__Snoring__patient__276EDEB3" FromRole="PatientProfil" ToRole="Snoring" />
+    <Property Name="doctorUserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="heartDisease" Type="Int32" />
+    <Property Name="asthma" Type="Int32" />
+    <Property Name="chronicCough" Type="Int32" />
+    <Property Name="obesity" Type="Int32" />
+    <NavigationProperty Name="AspNetUsers1" Relationship="whatTheHackModel.FK__PatientPr__docto__29572725" FromRole="PatientProfil" ToRole="AspNetUsers" />
+  </EntityType>
+  <EntityType Name="Snoring">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="startDate" Type="DateTime" Precision="0" />
+    <Property Name="endDate" Type="DateTime" Precision="0" />
+    <Property Name="data" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="patientProfilId" Type="Int32" />
+    <NavigationProperty Name="PatientProfil" Relationship="whatTheHackModel.FK__Snoring__patient__276EDEB3" FromRole="Snoring" ToRole="PatientProfil" />
+  </EntityType>
+  <Association Name="FK__PatientPr__userI__24927208">
+    <End Type="whatTheHackModel.AspNetUsers" Role="AspNetUsers" Multiplicity="1" />
+    <End Type="whatTheHackModel.PatientProfil" Role="PatientProfil" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PatientProfil">
+        <PropertyRef Name="userId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Snoring__patient__276EDEB3">
+    <End Type="whatTheHackModel.PatientProfil" Role="PatientProfil" Multiplicity="0..1" />
+    <End Type="whatTheHackModel.Snoring" Role="Snoring" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PatientProfil">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Snoring">
+        <PropertyRef Name="patientProfilId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__PatientPr__docto__29572725">
+    <End Type="whatTheHackModel.AspNetUsers" Role="AspNetUsers" Multiplicity="1" />
+    <End Type="whatTheHackModel.PatientProfil" Role="PatientProfil" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PatientProfil">
+        <PropertyRef Name="doctorUserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

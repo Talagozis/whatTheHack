@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
 
-namespace whatTheHack.Models
+namespace whatTheHack2.Models
 {
     public class IndexViewModel
     {

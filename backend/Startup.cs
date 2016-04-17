@@ -1,8 +1,8 @@
 ﻿using Microsoft.Owin;
 using Owin;
 
-[assembly: OwinStartupAttribute(typeof(whatTheHack.Startup))]
-namespace whatTheHack
+[assembly: OwinStartupAttribute(typeof(whatTheHack2.Startup))]
+namespace whatTheHack2
 {
     public partial class Startup
     {

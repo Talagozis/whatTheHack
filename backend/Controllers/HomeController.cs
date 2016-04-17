@@ -3,28 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Talagozis.Web.Controllers;
+using whatTheHack2.App_Plugins;
 
-namespace whatTheHack.Controllers
+namespace whatTheHack2.Controllers
 {
-    public class HomeController : Controller
+    //[RedirectOnAuthenticated("my")]
+    public class HomeController : BaseController
     {
+        [HttpGet]
+        [ActionName("index")]
         public ActionResult Index()
         {
-            return View();
+            return View("~/views/account/login.cshtml");
         }
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
+        
     }
 }

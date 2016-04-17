@@ -8,9 +8,9 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using whatTheHack.Models;
+using whatTheHack2.Models;
 
-namespace whatTheHack.Controllers
+namespace whatTheHack2.Controllers
 {
     [Authorize]
     public class AccountController : Controller
